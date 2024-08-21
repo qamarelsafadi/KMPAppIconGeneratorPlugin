@@ -4,15 +4,15 @@ plugins {
     id("com.gradle.plugin-publish") version "1.2.1"
 }
 
-group = "com.qamar.icon.generator" // Change as needed
+group = "io.github.qamarelsafadi"
 version = "1.0.0"
 
 gradlePlugin {
     website = "https://github.com/qamarelsafadi/KMPAppIconGeneratorPlugin"
     vcsUrl = "https://github.com/qamarelsafadi/KMPAppIconGeneratorPlugin.git"
     plugins {
-        register("com.qamar.icon.generator.KMPAppIconGeneratorPlugin") {
-            id = "com.qamar.icon.generator.module"
+        register("io.github.qamarelsafadi.generator.KMPAppIconGeneratorPlugin") {
+            id = "io.github.qamarelsafadi.kmp.app.icon.generator"
             implementationClass = "com.qamar.icon.generator.KMPAppIconGeneratorPlugin"
             displayName = "KMPAppIconGeneratorPlugin"
             description = "KMPAppIconGeneratorPlugin is a plugin that helps you change your Android and iOS app icon from one line command"
