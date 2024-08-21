@@ -29,16 +29,6 @@ Ensure that your project is using a compatible version of Kotlin and Gradle:
 - Kotlin version: `1.9.0`
 - Gradle version: `8.0+`
 
-### **Usage**
-
-Once configured, the plugin will automatically handle the generation and placement of app icons for both Android and iOS. You can execute the plugin tasks by running:
-
-```bash
-./gradlew generateIcons
-```
-
-This will process the icons and place them in the appropriate directories for each platform.
-
 ### **Project Structure**
 
 Here is the correct project structure using the KMP App Icon Generator Plugin:
@@ -65,11 +55,23 @@ my-kmp-project/
 
 To create the necessary `Assets.xcassets` for iOS and `mipmap` files for Android, you can use the [AppIcon.co tool](https://www.appicon.co). Simply upload your base icon image, download the generated files, and place them in the respective directories.
 
+
 ### **Tasks**
 
 The plugin provides the following tasks:
 
 - **`generateIcons`**: Processes and generates icons for all configured platforms.
+
+### **Usage**
+
+Once configured, the plugin will automatically handle the generation and placement of app icons for both Android and iOS. You can execute the plugin tasks by running:
+
+```bash
+./gradlew generateIcons
+```
+
+This will process the icons and place them in the appropriate directories for each platform.
+
 
 ### **Advanced Configuration**
 
@@ -78,3 +80,7 @@ The plugin can be extended or customized to fit the specific needs of your proje
 ## **Contributing**
 
 Contributions are welcome! If you have suggestions for improvements or find a bug, please create an issue or submit a pull request.
+
+## **License**
+
+This plugin is released under the Apache License. See the [LICENSE](https://github.com/qamarelsafadi/KMPAppIconGeneratorPlugin?tab=License-1-ov-file#readme) file for details.
