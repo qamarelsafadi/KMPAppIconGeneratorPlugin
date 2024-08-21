@@ -10,41 +10,6 @@ plugins {
     id("com.qamar.icon.generator.module") version "1.0.0"
 }
 
-//tasks.register("generateAppIcons") {
-//    doLast {
-//        val androidIconDir = "$rootDir/composeApp/src/commonMain/composeResources/files/icon/android/"
-//        val iosIconDir = "$rootDir/composeApp/src/commonMain/composeResources/files/icon/ios/Assets.xcassets/AppIcon.appiconset"
-//        val androidResDir = "$rootDir/composeApp/src/androidMain/res"
-//        val iosResDir = "$rootDir/iosApp/iosApp/Assets.xcassets/AppIcon.appiconset"
-//
-//        // Function to remove existing PNG files
-//        fun removePngFiles(directory: File) {
-//            directory.listFiles()?.filter { it.extension == "png" }?.forEach { file ->
-//                file.delete()
-//            }
-//        }
-//
-//        // Remove existing PNG files from Android resource directories
-//        val androidDirectories = listOf("mipmap-mdpi", "mipmap-hdpi", "mipmap-xhdpi", "mipmap-xxhdpi", "mipmap-xxxhdpi")
-//        androidDirectories.forEach { dir ->
-//            val fullPath = file("$androidResDir/$dir")
-//            if (fullPath.exists()) {
-//                removePngFiles(fullPath)
-//            }
-//        }
-//
-//        // Copy Android icons
-//        file(androidIconDir).listFiles()?.forEach { file ->
-//            file.copyRecursively(file("$androidResDir/${file.name}"), overwrite = true)
-//        }
-//
-//        // Copy iOS icons
-//        file(iosIconDir).copyRecursively(file(iosResDir), overwrite = true)
-//    }
-//}
-//
-//tasks.getByName("preBuild").dependsOn("generateAppIcons")
-
 kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
