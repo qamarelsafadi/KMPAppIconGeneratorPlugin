@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "io.github.qamarelsafadi"
-version = "1.1.0"
+version = "1.2.0"
 
 gradlePlugin {
     website = "https://github.com/qamarelsafadi/KMPAppIconGeneratorPlugin"

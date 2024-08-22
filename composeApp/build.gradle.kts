@@ -7,7 +7,8 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
-    id("io.github.qamarelsafadi.kmp.app.icon.generator") version "1.1.0"
+
+    id("io.github.qamarelsafadi.kmp.app.icon.generator") version "1.2.0"
 }
 
 kotlin {
