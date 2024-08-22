@@ -7,10 +7,9 @@ The **KMP App Icon Generator Plugin** is a Gradle plugin designed to simplify an
 ## **Features**
 
 - **Cross-Platform Compatibility**: Automatically configures and manages app icons for both Android and iOS platforms.
-- **Resource Management**: Handles the removal of duplicate PNG files and ensures that the latest resources are used across all platforms.
-- **Customizable**: Easily configurable to suit the specific needs of your project.
 - **Integration with Compose Resources**: Supports `composeResources` for centralized image management within KMP projects.
 - **Automatic Updates**: Automatically updates and syncs app icons whenever changes are made.
+- **Foreground and Round Icons**: Generates both `ic_launcher_foreground` and `ic_launcher_round` icons for Android.
 
 ## **Getting Started**
 
@@ -20,7 +19,7 @@ To use the KMP App Icon Generator Plugin in your project, add the following to y
 
 ```kotlin
 plugins {
-    id("io.github.qamarelsafadi.kmp.app.icon.generator") version "1.0.0"
+    id("io.github.qamarelsafadi.kmp.app.icon.generator") version "1.2.0"
 }
 ```
 
@@ -31,7 +30,7 @@ Ensure that your project is using a compatible version of Kotlin and Gradle:
 
 ### **Project Structure**
 
-Here is the correct project structure using the KMP App Icon Generator Plugin:
+For the plugin to function correctly, **you must place your base icon image as `icon.png` in the following directory exactly as specified**:
 
 ```
 my-kmp-project/
@@ -39,39 +38,30 @@ my-kmp-project/
 │   └── src/
 │       └── commonMain/
 │           └── composeResources/
-│               └── files/
-│                   └── icon/
-│                       ├── android/
-│                       │   └── mipmap-folders/
-│                       └── ios/
-│                           └── Assets.xcassets/
-│                               └── AppIcon.appiconset/
+│               └── drawable/
+│                   └── icon.png
 ```
 
-- **`android/`**: Place all your `mipmap` folders here.
-- **`ios/`**: Include the `Assets.xcassets` directory with the `AppIcon.appiconset` inside.
-
-### **Tool for Generating Icons**
-
-To create the necessary `Assets.xcassets` for iOS and `mipmap` files for Android, you can use the [AppIcon.co tool](https://www.appicon.co). Simply upload your base icon image, download the generated files, and place them in the respective directories.
-
+- **`drawable/`**: Ensure that your file is named `icon.png` and placed in this directory. This file will be used to generate all necessary app icon resources.
 
 ### **Tasks**
 
-The plugin provides the following tasks:
+The plugin provides the following task:
 
 - **`generateIcons`**: Processes and generates icons for all configured platforms.
 
 ### **Usage**
 
-Once configured, the plugin will automatically handle the generation and placement of app icons for both Android and iOS. You can execute the plugin tasks by running:
+Once configured, the plugin will automatically handle the generation and placement of app icons for both Android and iOS. To execute the plugin tasks, run:
 
 ```bash
 ./gradlew generateIcons
 ```
 
-This will process the icons and place them in the appropriate directories for each platform.
-
+This will process the `icon.png` file and generate:
+- `ic_launcher_foreground.png`
+- `ic_launcher_round.png` for Android
+- Necessary icons for iOS within `Assets.xcassets`
 
 ### **Advanced Configuration**
 
