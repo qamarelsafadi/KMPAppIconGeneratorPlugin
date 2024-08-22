@@ -7,8 +7,6 @@ The **KMP App Icon Generator Plugin** is a Gradle plugin designed to simplify an
 ## **Features**
 
 - **Cross-Platform Compatibility**: Automatically configures and manages app icons for both Android and iOS platforms.
-- **Resource Management**: Handles the removal of duplicate PNG files and ensures that the latest resources are used across all platforms.
-- **Customizable**: Easily configurable to suit the specific needs of your project.
 - **Integration with Compose Resources**: Supports `composeResources` for centralized image management within KMP projects.
 - **Automatic Updates**: Automatically updates and syncs app icons whenever changes are made.
 - **Foreground and Round Icons**: Generates both `ic_launcher_foreground` and `ic_launcher_round` icons for Android.
