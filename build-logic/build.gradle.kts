@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "io.github.qamarelsafadi"
-version = "1.0.0"
+version = "1.1.0"
 
 gradlePlugin {
     website = "https://github.com/qamarelsafadi/KMPAppIconGeneratorPlugin"
@@ -36,10 +36,10 @@ publishing {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_20 // Ensure compatibility with your project's Java version
-    targetCompatibility = JavaVersion.VERSION_20
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 kotlin {
-    jvmToolchain(20)
+    jvmToolchain(11)
 }

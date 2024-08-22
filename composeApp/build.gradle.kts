@@ -7,14 +7,14 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
-    id("com.qamar.icon.generator.module") version "1.0.0"
+    id("io.github.qamarelsafadi.kmp.app.icon.generator") version "1.1.0"
 }
 
 kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_20)
+            jvmTarget.set(JvmTarget.JVM_11)
         }
     }
     
@@ -74,8 +74,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_20
-        targetCompatibility = JavaVersion.VERSION_20
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     buildFeatures {
         compose = true
@@ -86,7 +86,7 @@ android {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_20 // Match the consumer project's Java version
-    targetCompatibility = JavaVersion.VERSION_20
+    sourceCompatibility = JavaVersion.VERSION_11 // Match the consumer project's Java version
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
