@@ -2,7 +2,9 @@ package com.qamar.icon.generator
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import java.awt.AlphaComposite
 import java.awt.Image
+import java.awt.RenderingHints
 import java.awt.geom.Ellipse2D
 import java.awt.image.BufferedImage
 import java.io.File
@@ -71,15 +73,24 @@ class KMPAppIconGeneratorPlugin : Plugin<Project> {
         }
     }
 
-    private fun resizeAndSaveImage(inputFile: File, width: Int, height: Int, outputFile: File, isRounded:Boolean = false) {
+    private fun resizeAndSaveImage(inputFile: File, width: Int, height: Int, outputFile: File, isRounded: Boolean = false) {
         val originalImage: BufferedImage = ImageIO.read(inputFile)
         val resizedImage = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
         val graphics = resizedImage.createGraphics()
 
+        graphics.drawImage(originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, null)
+
         if (isRounded) {
-            graphics.clip(Ellipse2D.Double(0.0, 0.0,width.toDouble(), height.toDouble()))
+            val mask = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
+            val g2 = mask.createGraphics()
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+            g2.fill(Ellipse2D.Double(0.0, 0.0, width.toDouble(), height.toDouble()))
+            g2.dispose()
+
+            graphics.composite = AlphaComposite.DstIn
+            graphics.drawImage(mask, 0, 0, null)
         }
-        graphics.drawImage(originalImage.getScaledInstance(width, height, Image.SCALE_REPLICATE), 0, 0, null)
+
         graphics.dispose()
 
         ImageIO.write(resizedImage, "png", outputFile)
