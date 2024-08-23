@@ -11,7 +11,7 @@ import javax.imageio.ImageIO
 class KMPAppIconGeneratorPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
-        project.tasks.register("generateIconsX") {
+        project.tasks.register("generateIcons") {
             group = "KMPAppIconGeneratorPlugin"
             description = "Generates Android and iOS icons from a single source image."
 
