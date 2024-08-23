@@ -3,6 +3,7 @@ package com.qamar.icon.generator
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import java.awt.Image
+import java.awt.geom.Ellipse2D
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
@@ -10,7 +11,7 @@ import javax.imageio.ImageIO
 class KMPAppIconGeneratorPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
-        project.tasks.register("generateIcons") {
+        project.tasks.register("generateIconsX") {
             group = "KMPAppIconGeneratorPlugin"
             description = "Generates Android and iOS icons from a single source image."
 
@@ -53,7 +54,7 @@ class KMPAppIconGeneratorPlugin : Plugin<Project> {
                     if (!outputDir.exists()) outputDir.mkdirs()
                     resizeAndSaveImage(sourceImageFile, size, size, File(outputDir, "ic_launcher.png"))
                     resizeAndSaveImage(sourceImageFile, size, size, File(outputDir, "ic_launcher_foreground.png"))
-                    resizeAndSaveImage(sourceImageFile, size, size, File(outputDir, "ic_launcher_round.png"))
+                    resizeAndSaveImage(sourceImageFile, size, size, File(outputDir, "ic_launcher_round.png"), true)
                 }
 
                 // Generate iOS icons (Assuming specific resolutions required by iOS)
@@ -70,11 +71,15 @@ class KMPAppIconGeneratorPlugin : Plugin<Project> {
         }
     }
 
-    private fun resizeAndSaveImage(inputFile: File, width: Int, height: Int, outputFile: File) {
+    private fun resizeAndSaveImage(inputFile: File, width: Int, height: Int, outputFile: File, isRounded:Boolean = false) {
         val originalImage: BufferedImage = ImageIO.read(inputFile)
         val resizedImage = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
         val graphics = resizedImage.createGraphics()
-        graphics.drawImage(originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, null)
+
+        if (isRounded) {
+            graphics.clip(Ellipse2D.Double(0.0, 0.0,10.0, 10.0))
+        }
+        graphics.drawImage(originalImage.getScaledInstance(width, height, Image.SCALE_REPLICATE), 0, 0, null)
         graphics.dispose()
 
         ImageIO.write(resizedImage, "png", outputFile)

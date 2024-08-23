@@ -5,11 +5,11 @@ plugins {
 }
 
 group = "io.github.qamarelsafadi"
-version = "1.2.0"
+version = "1.3.0"
 
 gradlePlugin {
-    website = "https://github.com/qamarelsafadi/KMPAppIconGeneratorPlugin"
-    vcsUrl = "https://github.com/qamarelsafadi/KMPAppIconGeneratorPlugin.git"
+    website = "https://github.com/MahmoudRH/KMPAppIconGeneratorPlugin"
+    vcsUrl = "https://github.com/MahmoudRH/KMPAppIconGeneratorPlugin.git"
     plugins {
         register("io.github.qamarelsafadi.generator.KMPAppIconGeneratorPlugin") {
             id = "io.github.qamarelsafadi.kmp.app.icon.generator"
@@ -36,10 +36,10 @@ publishing {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_19
+    targetCompatibility = JavaVersion.VERSION_19
 }
 
 kotlin {
-    jvmToolchain(11)
+    jvmToolchain(19)
 }
