@@ -19,7 +19,7 @@ To use the KMP App Icon Generator Plugin in your project, add the following to y
 
 ```kotlin
 plugins {
-    id("io.github.qamarelsafadi.kmp.app.icon.generator") version "1.2.1"
+    id("io.github.qamarelsafadi.kmp.app.icon.generator") version "1.2.2"
 }
 ```
 
@@ -30,7 +30,7 @@ Ensure that your project is using a compatible version of Kotlin and Gradle:
 
 ### **Project Structure**
 
-For the plugin to function correctly, **you must place your base icon image as `icon.png` in the following directory exactly as specified**:
+For the plugin to function correctly, **you must place your base icon image as `icon.png` or `icon.svg` in the following directory exactly as specified**:
 
 ```
 my-kmp-project/
@@ -40,9 +40,12 @@ my-kmp-project/
 │           └── composeResources/
 │               └── drawable/
 │                   └── icon.png
+|                        or 
+|                   └── icon.svg
+
 ```
 
-- **`drawable/`**: Ensure that your file is named `icon.png` and placed in this directory. This file will be used to generate all necessary app icon resources.
+- **`drawable/`**: Ensure that your file is named `icon.png` or `icon.svg` and placed in this directory. This file will be used to generate all necessary app icon resources.
 
 ### **Tasks**
 
