@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "io.github.qamarelsafadi"
-version = "1.2.1"
+version = "1.2.2"
 
 gradlePlugin {
     website = "https://github.com/qamarelsafadi/KMPAppIconGeneratorPlugin"
@@ -23,7 +23,7 @@ gradlePlugin {
 dependencies {
     implementation(gradleApi())
     compileOnly(libs.kotlin.gradle.plugin)
-}
+    implementation(libs.weblookandfeel.svg.salamander)}
 
 publishing {
     repositories {

@@ -17,7 +17,8 @@ junit = "4.13.2"
 kotlin = "2.0.0"
 kotlinGradlePlugin = "2.0.0"
 jetbrainsKotlinJvm = "1.9.0"
-
+salamander = "1.1.2.1"
+svgSalamander = "1.1.2.2"
 [libraries]
 gradle-api = { module = "org.gradle:gradle-api", version.ref = "gradleApi" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
@@ -34,6 +35,8 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+svg-salamander = { group = "com.kitfox.svg", name = "svg-salamander", version.ref = "salamander" }
+weblookandfeel-svg-salamander = { module = "com.weblookandfeel:svg-salamander", version.ref = "svgSalamander" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
