@@ -1,10 +1,14 @@
 package com.qamar.icon.generator
 
+import com.kitfox.svg.SVGDiagram
+import com.kitfox.svg.SVGUniverse
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import java.awt.AlphaComposite
+import java.awt.Color
 import java.awt.Image
 import java.awt.RenderingHints
+import java.awt.geom.AffineTransform
 import java.awt.geom.Ellipse2D
 import java.awt.image.BufferedImage
 import java.io.File
@@ -18,15 +22,22 @@ class KMPAppIconGeneratorPlugin : Plugin<Project> {
             description = "Generates Android and iOS icons from a single source image."
 
             doLast {
-                val sourceImagePath = "${project.rootDir}/composeApp/src/commonMain/composeResources/drawable/icon.png"
+                val sourceImagePath = "${project.rootDir}/composeApp/src/commonMain/composeResources/drawable/icon"
                 val androidResDir = "${project.rootDir}/composeApp/src/androidMain/res"
                 val iosResDir = "${project.rootDir}/iosApp/iosApp/Assets.xcassets/AppIcon.appiconset"
-
-                // Ensure source image exists
-                val sourceImageFile = File(sourceImagePath)
-                if (!sourceImageFile.exists()) {
-                    throw IllegalArgumentException("Source image file not found at $sourceImagePath")
+                // Determine if the source image is SVG or PNG
+                val sourceImageFile = when {
+                    File("$sourceImagePath.svg").exists() -> File("$sourceImagePath.svg")
+                    File("$sourceImagePath.png").exists() -> File("$sourceImagePath.png")
+                    else -> throw IllegalArgumentException("No source image file found at $sourceImagePath with supported extensions (svg or png)")
                 }
+
+                val imageFileToUse: File = if (sourceImageFile.extension == "svg") {
+                    convertSvgToPng(sourceImageFile)
+                } else {
+                    sourceImageFile
+                }
+
                 // Resize and generate Android icons
                 val androidResolutions = mapOf(
                     "mipmap-mdpi" to 48,
@@ -54,9 +65,9 @@ class KMPAppIconGeneratorPlugin : Plugin<Project> {
                 androidResolutions.forEach { (folder, size) ->
                     val outputDir = File("$androidResDir/$folder")
                     if (!outputDir.exists()) outputDir.mkdirs()
-                    resizeAndSaveImage(sourceImageFile, size, size, File(outputDir, "ic_launcher.png"))
-                    resizeAndSaveImage(sourceImageFile, size, size, File(outputDir, "ic_launcher_foreground.png"))
-                    resizeAndSaveImage(sourceImageFile, size, size, File(outputDir, "ic_launcher_round.png"), true)
+                    resizeAndSaveImage(imageFileToUse, size, size, File(outputDir, "ic_launcher.png"))
+                    resizeAndSaveImage(imageFileToUse, size, size, File(outputDir, "ic_launcher_foreground.png"))
+                    resizeAndSaveImage(imageFileToUse, size, size, File(outputDir, "ic_launcher_round.png"), true)
                 }
 
                 // Generate iOS icons (Assuming specific resolutions required by iOS)
@@ -67,7 +78,7 @@ class KMPAppIconGeneratorPlugin : Plugin<Project> {
                 iosResolutions.forEach { size ->
                     val outputDir = File(iosResDir)
                     if (!outputDir.exists()) outputDir.mkdirs()
-                    resizeAndSaveImage(sourceImageFile, size, size, File(outputDir, "${size}.png"))
+                    resizeAndSaveImage(imageFileToUse, size, size, File(outputDir, "${size}.png"))
                 }
             }
         }
@@ -77,7 +88,12 @@ class KMPAppIconGeneratorPlugin : Plugin<Project> {
         val originalImage: BufferedImage = ImageIO.read(inputFile)
         val resizedImage = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
         val graphics = resizedImage.createGraphics()
+        // Set high-quality rendering hints
+        graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR)
+        graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
 
+        // Scale the original image
         graphics.drawImage(originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, null)
 
         if (isRounded) {
@@ -92,7 +108,53 @@ class KMPAppIconGeneratorPlugin : Plugin<Project> {
         }
 
         graphics.dispose()
-
         ImageIO.write(resizedImage, "png", outputFile)
     }
+
+    private fun convertSvgToPng(svgFile: File, targetWidth: Int = 1024, targetHeight: Int = 1024, backgroundColor: Color = Color.WHITE): File {
+        val svgUniverse = SVGUniverse()
+        val diagram: SVGDiagram = svgUniverse.getDiagram(svgFile.toURI())
+
+        // Get the original dimensions of the SVG
+        val originalWidth = diagram.width
+        val originalHeight = diagram.height
+
+        // Create a BufferedImage with a higher resolution
+        val highResWidth = targetWidth * 2
+        val highResHeight = targetHeight * 2
+        val bufferedImage = BufferedImage(highResWidth, highResHeight, BufferedImage.TYPE_INT_ARGB)
+        val graphics = bufferedImage.createGraphics()
+
+        // Set background color
+        graphics.color = backgroundColor
+        graphics.fillRect(0, 0, highResWidth, highResHeight)
+
+        // Apply scaling and translation to center the SVG
+        val scaleFactor = minOf(highResWidth / originalWidth, highResHeight / originalHeight)
+        val xOffset = (highResWidth - originalWidth * scaleFactor) / 2
+        val yOffset = (highResHeight - originalHeight * scaleFactor) / 2
+
+        val transform = AffineTransform()
+        transform.translate(xOffset.toDouble(), yOffset.toDouble())
+        transform.scale(scaleFactor.toDouble(), scaleFactor.toDouble())
+
+        graphics.transform = transform
+
+        // Render the SVG diagram
+        diagram.render(graphics)
+        graphics.dispose()
+
+        // Downscale to target dimensions
+        val scaledImage = BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB)
+        val g2 = scaledImage.createGraphics()
+        g2.drawImage(bufferedImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH), 0, 0, null)
+        g2.dispose()
+
+        // Save the image to a file
+        val outputFile = File(svgFile.parent, "icon.png")
+        ImageIO.write(scaledImage, "png", outputFile)
+
+        return outputFile
+    }
+
 }
