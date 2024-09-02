@@ -21,6 +21,7 @@ salamander = "1.1.2.1"
 svgSalamander = "1.1.2.2"
 [libraries]
 gradle-api = { module = "org.gradle:gradle-api", version.ref = "gradleApi" }
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlinGradlePlugin" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }

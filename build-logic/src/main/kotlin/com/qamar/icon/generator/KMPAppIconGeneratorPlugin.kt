@@ -1,5 +1,6 @@
 package com.qamar.icon.generator
 
+import com.android.build.api.variant.AndroidComponentsExtension
 import com.kitfox.svg.SVGDiagram
 import com.kitfox.svg.SVGUniverse
 import org.gradle.api.Plugin
@@ -17,7 +18,7 @@ import javax.imageio.ImageIO
 class KMPAppIconGeneratorPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
-        project.tasks.register("generateIcons") {
+        val generateIconsTaskProvider = project.tasks.register("generateIcons") {
             group = "KMPAppIconGeneratorPlugin"
             description = "Generates Android and iOS icons from a single source image."
 
@@ -79,6 +80,16 @@ class KMPAppIconGeneratorPlugin : Plugin<Project> {
                     val outputDir = File(iosResDir)
                     if (!outputDir.exists()) outputDir.mkdirs()
                     resizeAndSaveImage(imageFileToUse, size, size, File(outputDir, "${size}.png"))
+                }
+            }
+        }
+        project.pluginManager.withPlugin("com.android.application") {
+            val androidComponents = project.extensions.getByType(AndroidComponentsExtension::class.java)
+            androidComponents.onVariants { variant ->
+                project.tasks.configureEach {
+                    if (name == "assemble${variant.name.capitalizeFirstChar()}") {
+                        dependsOn(generateIconsTaskProvider)
+                    }
                 }
             }
         }
@@ -157,4 +168,7 @@ class KMPAppIconGeneratorPlugin : Plugin<Project> {
         return outputFile
     }
 
+    private fun String.capitalizeFirstChar(): String {
+        return replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+    }
 }

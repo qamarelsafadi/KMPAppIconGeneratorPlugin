@@ -22,6 +22,7 @@ gradlePlugin {
 }
 dependencies {
     implementation(gradleApi())
+    compileOnly(libs.android.gradle.plugin)
     compileOnly(libs.kotlin.gradle.plugin)
     implementation(libs.weblookandfeel.svg.salamander)}
 
