@@ -8,7 +8,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
 
-    id("io.github.qamarelsafadi.kmp.app.icon.generator") version "1.2.2"
+    id("io.github.qamarelsafadi.kmp.app.icon.generator") version "1.2.3"
 }
 
 kotlin {
