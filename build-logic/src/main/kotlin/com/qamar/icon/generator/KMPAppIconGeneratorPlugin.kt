@@ -48,13 +48,13 @@ class KMPAppIconGeneratorPlugin : Plugin<Project> {
                 )
                 // Function to remove existing PNG files
                 fun removePngFiles(directory: File) {
-                    directory.listFiles()?.filter { it.extension == "png" || it.extension =="webp" }?.forEach { file ->
+                    directory.listFiles()?.filter { it.extension == "png" || it.extension =="webp"  || it.extension == "xml"} ?.forEach { file ->
                         file.delete()
                     }
                 }
 
                 // Remove existing PNG files from Android resource directories
-                val androidDirectories = listOf("mipmap-mdpi", "mipmap-hdpi", "mipmap-xhdpi", "mipmap-xxhdpi", "mipmap-xxxhdpi")
+                val androidDirectories = listOf("mipmap-mdpi", "mipmap-hdpi", "mipmap-xhdpi", "mipmap-xxhdpi", "mipmap-xxxhdpi","mipmap-anydpi-v26")
                 androidDirectories.forEach { dir ->
                     val fullPath = File("$androidResDir/$dir")
                     if (fullPath.exists()) {
