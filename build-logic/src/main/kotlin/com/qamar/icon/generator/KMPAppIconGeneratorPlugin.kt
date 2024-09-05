@@ -76,9 +76,10 @@ class KMPAppIconGeneratorPlugin : Plugin<Project> {
                 )
 
                 iosResolutions.forEach { size ->
+
                     val outputDir = File(iosResDir)
                     if (!outputDir.exists()) outputDir.mkdirs()
-                    resizeAndSaveImage(imageFileToUse, size, size, File(outputDir, "${size}.png"))
+                    resizeAndSaveImage(imageFileToUse, size, size, File(outputDir, "app-icon-${size}.png"))
                 }
             }
         }
