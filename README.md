@@ -19,7 +19,7 @@ To use the KMP App Icon Generator Plugin in your project, add the following to y
 
 ```kotlin
 plugins {
-    id("io.github.qamarelsafadi.kmp.app.icon.generator") version "1.2.2"
+    id("io.github.qamarelsafadi.kmp.app.icon.generator") version "1.2.5"
 }
 ```
 
