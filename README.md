@@ -19,7 +19,7 @@ To use the KMP App Icon Generator Plugin in your project, add the following to y
 
 ```kotlin
 plugins {
-    id("io.github.qamarelsafadi.kmp.app.icon.generator") version "1.2.5"
+    id("io.github.qamarelsafadi.kmp.app.icon.generator") version "1.2.6"
 }
 ```
 
@@ -55,11 +55,18 @@ The plugin provides the following task:
 
 ### **Usage**
 
+**JUST RUN YOUR ANDROID OR IOS APP AND THE TASK WILL RUN AUTOMATICALLY!**
+
+or 
+
 Once configured, the plugin will automatically handle the generation and placement of app icons for both Android and iOS. To execute the plugin tasks, run:
 
 ```bash
 ./gradlew generateIcons
 ```
+
+
+
 
 This will process the `icon.png` file and generate:
 - `ic_launcher_foreground.png`
