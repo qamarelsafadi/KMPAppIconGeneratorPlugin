@@ -5,6 +5,7 @@ import com.kitfox.svg.SVGDiagram
 import com.kitfox.svg.SVGUniverse
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import java.awt.AlphaComposite
 import java.awt.Color
 import java.awt.Image
@@ -93,6 +94,14 @@ class KMPAppIconGeneratorPlugin : Plugin<Project> {
                     }
                 }
             }
+        }
+        project.plugins.withType(org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper::class.java) {
+            project.extensions.findByType(org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension::class.java)?.targets
+                ?.withType(KotlinNativeTarget::class.java)?.configureEach {
+                    binaries.all {
+                        linkTask.dependsOn(generateIconsTaskProvider)
+                    }
+                }
         }
     }
 
