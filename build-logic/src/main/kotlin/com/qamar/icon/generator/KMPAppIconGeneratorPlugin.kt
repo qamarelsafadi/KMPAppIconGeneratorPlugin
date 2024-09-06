@@ -1,9 +1,11 @@
 package com.qamar.icon.generator
 
+import com.android.build.api.variant.AndroidComponentsExtension
 import com.kitfox.svg.SVGDiagram
 import com.kitfox.svg.SVGUniverse
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import java.awt.AlphaComposite
 import java.awt.Color
 import java.awt.Image
@@ -17,7 +19,7 @@ import javax.imageio.ImageIO
 class KMPAppIconGeneratorPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
-        project.tasks.register("generateIcons") {
+        val generateIconsTaskProvider = project.tasks.register("generateIcons") {
             group = "KMPAppIconGeneratorPlugin"
             description = "Generates Android and iOS icons from a single source image."
 
@@ -82,6 +84,24 @@ class KMPAppIconGeneratorPlugin : Plugin<Project> {
                     resizeAndSaveImage(imageFileToUse, size, size, File(outputDir, "app-icon-${size}.png"))
                 }
             }
+        }
+        project.pluginManager.withPlugin("com.android.application") {
+            val androidComponents = project.extensions.getByType(AndroidComponentsExtension::class.java)
+            androidComponents.onVariants { variant ->
+                project.tasks.configureEach {
+                    if (name == "assemble${variant.name.capitalizeFirstChar()}") {
+                        dependsOn(generateIconsTaskProvider)
+                    }
+                }
+            }
+        }
+        project.plugins.withType(org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper::class.java) {
+            project.extensions.findByType(org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension::class.java)?.targets
+                ?.withType(KotlinNativeTarget::class.java)?.configureEach {
+                    binaries.all {
+                        linkTask.dependsOn(generateIconsTaskProvider)
+                    }
+                }
         }
     }
 
@@ -158,4 +178,7 @@ class KMPAppIconGeneratorPlugin : Plugin<Project> {
         return outputFile
     }
 
+    private fun String.capitalizeFirstChar(): String {
+        return replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+    }
 }
