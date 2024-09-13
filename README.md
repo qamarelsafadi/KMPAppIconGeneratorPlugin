@@ -84,3 +84,8 @@ Contributions are welcome! If you have suggestions for improvements or find a bu
 ## **License**
 
 This plugin is released under the Apache License. See the [LICENSE](https://github.com/qamarelsafadi/KMPAppIconGeneratorPlugin?tab=License-1-ov-file#readme) file for details.
+
+
+## Support 
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://ko-fi.com/qamarasafadi)
+
